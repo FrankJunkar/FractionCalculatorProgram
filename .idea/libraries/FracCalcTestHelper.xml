@@ -1,0 +1,9 @@
+<component name="libraryTable">
+  <library name="FracCalcTestHelper">
+    <CLASSES>
+      <root url="jar://$PROJECT_DIR$/FracCalc/FracCalcTestHelper.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+  </library>
+</component>
