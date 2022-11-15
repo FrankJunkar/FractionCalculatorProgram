@@ -8,13 +8,11 @@ public class FracCalc {
         boolean inputting = true;
         while (inputting) {
             String input = reader.nextLine();
-            System.out.println(produceAnswer(input));
-            if (input == "quit") {
-                inputting = false;
+            if (input.equals("quit")) {
+                break;
             }
+            System.out.println(produceAnswer(input));
         }
-
-
     }
 
     public static String produceAnswer(String input)
@@ -25,15 +23,34 @@ public class FracCalc {
         String operator = arr[1];
         String secondOper = arr[2];
 
-        String[] secondOperWholeArr = secondOper.split("_");
-        String secondOperWhole = secondOperWholeArr[0];
-        String secondOperFraction = secondOperWholeArr[1];
+        if (secondOper.indexOf("_") != -1) {
+            String[] secondOperArr = secondOper.split("_");
+            int secondOperWhole = Integer.parseInt(secondOperArr[0]);
+            String secondOperFraction = secondOperArr[1];
 
-        String[] secondOperNumArr = secondOperFraction.split("/");
-        String secondOperNum = secondOperNumArr[0];
+            String[] secondOperFractionArr = secondOperFraction.split("/");
+            int secondOperNumer = Integer.parseInt(secondOperFractionArr[0]);
+            int secondOperDenom = Integer.parseInt(secondOperFractionArr[1]);
+            return ("whole:" + secondOperWhole + " numerator:" + secondOperNumer + " denominator:" + secondOperDenom);
+        }
 
-        String secondOperDen = secondOperNumArr[1];
+        else {
+            if (secondOper.indexOf("/") != -1) {
+                int secondOperWhole = 0;
 
-        return ("whole:" + secondOperWhole + " numerator:" + secondOperNum + " denominator:" + secondOperDen);
+                String[] secondOperFractionArr = secondOper.split("/");
+                int secondOperNumer = Integer.parseInt(secondOperFractionArr[0]);
+                int secondOperDenom = Integer.parseInt(secondOperFractionArr[1]);
+                return ("whole:" + secondOperWhole + " numerator:" + secondOperNumer + " denominator:" + secondOperDenom);
+            }
+
+            else {
+                int secondOperWhole = Integer.parseInt(secondOper);
+                int secondOperNumer = 0;
+                int secondOperDenom = 1;
+                return ("whole:" + secondOperWhole + " numerator:" + secondOperNumer + " denominator:" + secondOperDenom);
+            }
+
+        }
     }
 }
