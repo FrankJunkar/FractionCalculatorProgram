@@ -1,8 +1,7 @@
 import java.util.Scanner;
 public class FracCalc {
 
-    public static void main(String[] args)
-    {
+    public static void main(String[] args) {
         // TODO: Read the input from the user and call produceAnswer with an equation
         Scanner reader = new Scanner(System.in);
         boolean inputting = true;
@@ -15,9 +14,44 @@ public class FracCalc {
         }
     }
 
-    public static String produceAnswer(String input)
-    {
-        // TODO: Implement this function to produce the solution to the input
+    public static String parseFirstFrac(String input) {
+        String[] arr = input.split(" ");
+        String firstOper = arr[0];
+        String operator = arr[1];
+        String secondOper = arr[2];
+
+        if (firstOper.indexOf("_") != -1) {
+            String[] firstOperArr = firstOper.split("_");
+            int firstOperWhole = Integer.parseInt(firstOperArr[0]);
+            String firstOperFraction = firstOperArr[1];
+
+            String[] firstOperFractionArr = firstOperFraction.split("/");
+            int firstOperNumer = Integer.parseInt(firstOperFractionArr[0]);
+            int firstOperDenom = Integer.parseInt(firstOperFractionArr[1]);
+            if (firstOperWhole < 0) {
+                firstOperNumer = -1 * firstOperNumer;
+            }
+            return operator + " " + firstOperWhole + " " + firstOperNumer + " " + firstOperDenom;
+        }
+        else {
+            if (firstOper.indexOf("/") != -1) {
+                int firstOperWhole = 0;
+
+                String[] firstOperFractionArr = firstOper.split("/");
+                int firstOperNumer = Integer.parseInt(firstOperFractionArr[0]);
+                int firstOperDenom = Integer.parseInt(firstOperFractionArr[1]);
+                return operator + " " + firstOperWhole + " " + firstOperNumer + " " + firstOperDenom;
+            }
+            else {
+                int firstOperWhole = Integer.parseInt(firstOper);
+                int firstOperNumer = 0;
+                int firstOperDenom = 1;
+                return operator + " " + firstOperWhole + " " + firstOperNumer + " " + firstOperDenom;
+            }
+        }
+    }
+
+    public static String parseSecondFrac(String input) {
         String[] arr = input.split(" ");
         String firstOper = arr[0];
         String operator = arr[1];
@@ -31,9 +65,11 @@ public class FracCalc {
             String[] secondOperFractionArr = secondOperFraction.split("/");
             int secondOperNumer = Integer.parseInt(secondOperFractionArr[0]);
             int secondOperDenom = Integer.parseInt(secondOperFractionArr[1]);
-            return ("whole:" + secondOperWhole + " numerator:" + secondOperNumer + " denominator:" + secondOperDenom);
+            if (secondOperWhole < 0) {
+                secondOperNumer = -1 * secondOperNumer;
+            }
+            return operator + " " + secondOperWhole + " " + secondOperNumer + " " + secondOperDenom;
         }
-
         else {
             if (secondOper.indexOf("/") != -1) {
                 int secondOperWhole = 0;
@@ -41,16 +77,114 @@ public class FracCalc {
                 String[] secondOperFractionArr = secondOper.split("/");
                 int secondOperNumer = Integer.parseInt(secondOperFractionArr[0]);
                 int secondOperDenom = Integer.parseInt(secondOperFractionArr[1]);
-                return ("whole:" + secondOperWhole + " numerator:" + secondOperNumer + " denominator:" + secondOperDenom);
+                return operator + " " + secondOperWhole + " " + secondOperNumer + " " + secondOperDenom;
             }
-
             else {
                 int secondOperWhole = Integer.parseInt(secondOper);
                 int secondOperNumer = 0;
                 int secondOperDenom = 1;
-                return ("whole:" + secondOperWhole + " numerator:" + secondOperNumer + " denominator:" + secondOperDenom);
+                return operator + " " + secondOperWhole + " " + secondOperNumer + " " + secondOperDenom;
             }
+        }
+    }
 
+    public static String add(String input) {
+        int whole1 = Integer.parseInt(parseFirstFrac(input).split(" ")[1]);
+        int num1 = Integer.parseInt(parseFirstFrac(input).split(" ")[2]);
+        int den1 = Integer.parseInt(parseFirstFrac(input).split(" ")[3]);
+
+        int whole2 = Integer.parseInt(parseSecondFrac(input).split(" ")[1]);
+        int num2 = Integer.parseInt(parseSecondFrac(input).split(" ")[2]);
+        int den2 = Integer.parseInt(parseSecondFrac(input).split(" ")[3]);
+
+        num1 = whole1 * den1 + num1;
+        num2 = whole2 * den2 + num2;
+
+        int num = num1 * den2 + num2 * den1;
+        int den = den1 * den2;
+
+        return num + "/" + den;
+    }
+
+    public static String subtract(String input) {
+        int whole1 = Integer.parseInt(parseFirstFrac(input).split(" ")[1]);
+        int num1 = Integer.parseInt(parseFirstFrac(input).split(" ")[2]);
+        int den1 = Integer.parseInt(parseFirstFrac(input).split(" ")[3]);
+
+        int whole2 = Integer.parseInt(parseSecondFrac(input).split(" ")[1]);
+        int num2 = Integer.parseInt(parseSecondFrac(input).split(" ")[2]);
+        int den2 = Integer.parseInt(parseSecondFrac(input).split(" ")[3]);
+
+        num1 = whole1 * den1 + num1;
+        num2 = whole2 * den2 + num2;
+
+        int num = num1 * den2 - num2 * den1;
+        int den = den1 * den2;
+
+        return num + "/" + den;
+    }
+
+    public static String multiply(String input) {
+        int whole1 = Integer.parseInt(parseFirstFrac(input).split(" ")[1]);
+        int num1 = Integer.parseInt(parseFirstFrac(input).split(" ")[2]);
+        int den1 = Integer.parseInt(parseFirstFrac(input).split(" ")[3]);
+
+        int whole2 = Integer.parseInt(parseSecondFrac(input).split(" ")[1]);
+        int num2 = Integer.parseInt(parseSecondFrac(input).split(" ")[2]);
+        int den2 = Integer.parseInt(parseSecondFrac(input).split(" ")[3]);
+
+        num1 = whole1 * den1 + num1;
+        num2 = whole2 * den2 + num2;
+
+        int num = num1 * num2;
+        int den = den1 * den2;
+
+        return num + "/" + den;
+    }
+
+    public static String divide(String input) {
+        int whole1 = Integer.parseInt(parseFirstFrac(input).split(" ")[1]);
+        int num1 = Integer.parseInt(parseFirstFrac(input).split(" ")[2]);
+        int den1 = Integer.parseInt(parseFirstFrac(input).split(" ")[3]);
+
+        int whole2 = Integer.parseInt(parseSecondFrac(input).split(" ")[1]);
+        int num2 = Integer.parseInt(parseSecondFrac(input).split(" ")[2]);
+        int den2 = Integer.parseInt(parseSecondFrac(input).split(" ")[3]);
+
+        num1 = whole1 * den1 + num1;
+        num2 = whole2 * den2 + num2;
+
+        int num = num1 * den2;
+        int den = num2 * den1;
+
+        return num + "/" + den;
+    }
+
+    public static String produceAnswer(String input) {
+        // TODO: Implement this function to produce the solution to the input
+
+        String[] arr = input.split(" ");
+        String firstOper = arr[0];
+        String operator = arr[1];
+
+        if (operator.equals("+")) {
+            return add(input);
+        }
+
+        else if (operator.equals("-")) {
+            return subtract(input);
+        }
+
+        else if (operator.equals("*")) {
+            return multiply(input);
+        }
+
+        else if (operator.equals("/")) {
+            return divide(input);
+        }
+
+        else {
+            return "Ah";
         }
     }
 }
