@@ -1,4 +1,5 @@
 import java.util.Scanner;
+import java.lang.Math;
 public class FracCalc {
 
     public static void main(String[] args) {
@@ -56,7 +57,6 @@ public class FracCalc {
         String firstOper = arr[0];
         String operator = arr[1];
         String secondOper = arr[2];
-
         if (secondOper.indexOf("_") != -1) {
             String[] secondOperArr = secondOper.split("_");
             int secondOperWhole = Integer.parseInt(secondOperArr[0]);
@@ -103,7 +103,7 @@ public class FracCalc {
         int num = num1 * den2 + num2 * den1;
         int den = den1 * den2;
 
-        return num + "/" + den;
+        return simplify(num, den);
     }
 
     public static String subtract(String input) {
@@ -121,7 +121,7 @@ public class FracCalc {
         int num = num1 * den2 - num2 * den1;
         int den = den1 * den2;
 
-        return num + "/" + den;
+        return simplify(num, den);
     }
 
     public static String multiply(String input) {
@@ -139,7 +139,7 @@ public class FracCalc {
         int num = num1 * num2;
         int den = den1 * den2;
 
-        return num + "/" + den;
+        return simplify(num, den);
     }
 
     public static String divide(String input) {
@@ -157,7 +157,43 @@ public class FracCalc {
         int num = num1 * den2;
         int den = num2 * den1;
 
-        return num + "/" + den;
+        return simplify(num, den);
+    }
+
+    public static String simplify(int num, int denom) {
+        int numerator = num;
+        int denominator = denom;
+
+        if ((numerator > 0 && denominator < 0) || numerator < 0 && denominator < 0) {
+            numerator *= -1;
+            denominator *= -1;
+        }
+
+        for (int i = Math.abs(denominator); i > 1; i --) {
+            while ((numerator % i == 0) && (denominator % i == 0)) {
+                numerator /= i;
+                denominator /= i;
+            }
+        }
+        if (denominator == 1) {
+            return "" + numerator;
+        }
+        else if (numerator == 0) {
+            return "0";
+        }
+        else {
+            if (Math.abs(numerator) > Math.abs(denominator)) {
+                if ((Math.abs(numerator) % Math.abs(denominator)) == 0) {
+                    return "" + numerator / denominator;
+                }
+                else {
+                    return (numerator / denominator) + "_" + (Math.abs(numerator) % Math.abs(denominator)) + "/" + Math.abs(denominator);
+                }
+            }
+            else {
+                return numerator + "/" + denominator;
+            }
+        }
     }
 
     public static String produceAnswer(String input) {
@@ -179,12 +215,8 @@ public class FracCalc {
             return multiply(input);
         }
 
-        else if (operator.equals("/")) {
-            return divide(input);
-        }
-
         else {
-            return "Ah";
+            return divide(input);
         }
     }
 }
